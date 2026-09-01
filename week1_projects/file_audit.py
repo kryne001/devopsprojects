@@ -10,6 +10,13 @@ def scan_directory(root_path):
     
     LARGE_FILE_THRESHOLD = 100 * 1024 * 1024  # 100 MB
 
+    root = Path(root_path)
+    
+    if not root.exists():
+        raise FileNotFoundError(f"Path does not exist: {root_path}")
+    if not root.is_dir():
+        raise NotADirectoryError(f"Path exists but is not a directory: {root_path}")
+
     for dirpath, _, filenames in os.walk(root_path):
         for filename in filenames:
             filepath = Path(dirpath) / filename
@@ -45,6 +52,7 @@ def print_summary(stats, flagged):
             print(item)
     else:
         print("\nNo flags found.")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Scan a directory for file stats and security flags")
