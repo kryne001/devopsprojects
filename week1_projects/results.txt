@@ -288,11 +288,6 @@
       "reason": "large_file"
     },
     {
-      "path": "/Users/kylerrynear/Downloads/Figma (1).zip",
-      "size_mb": 114.47,
-      "reason": "large_file"
-    },
-    {
       "path": "/Users/kylerrynear/Downloads/AcroRdrSCADC2500121111_MUI (1).dmg",
       "size_mb": 830.36,
       "reason": "large_file"
@@ -303,33 +298,13 @@
       "reason": "large_file"
     },
     {
-      "path": "/Users/kylerrynear/Downloads/Figma.zip",
-      "size_mb": 114.47,
-      "reason": "large_file"
-    },
-    {
       "path": "/Users/kylerrynear/Downloads/IMG_6516.MOV",
       "size_mb": 1244.57,
       "reason": "large_file"
     },
     {
-      "path": "/Users/kylerrynear/Downloads/Figma (2).zip",
-      "size_mb": 114.06,
-      "reason": "large_file"
-    },
-    {
-      "path": "/Users/kylerrynear/Downloads/Autogefuehl_Shot2_1.MP4",
-      "size_mb": 188.79,
-      "reason": "large_file"
-    },
-    {
       "path": "/Users/kylerrynear/Downloads/AcroRdrSCADC2500121111_MUI.dmg",
       "size_mb": 830.36,
-      "reason": "large_file"
-    },
-    {
-      "path": "/Users/kylerrynear/Downloads/Slack-4.42.117-macOS.dmg",
-      "size_mb": 170.73,
       "reason": "large_file"
     },
     {

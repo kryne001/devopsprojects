@@ -4,11 +4,14 @@ import json
 from pathlib import Path
 from collections import defaultdict
 
-def scan_directory(root_path):
+def scan_directory(root_path, min_size):
     stats = defaultdict(lambda: {"count": 0, "total_size": 0})
     flagged = []
     
-    LARGE_FILE_THRESHOLD = 100 * 1024 * 1024  # 100 MB
+    if min_size is None: 
+        LARGE_FILE_THRESHOLD = 100 * 1024 * 1024  # 100 MB
+    else:
+        LARGE_FILE_THRESHOLD = min_size * 1024 * 1024 
 
     root = Path(root_path)
     
@@ -58,9 +61,10 @@ def main():
     parser = argparse.ArgumentParser(description="Scan a directory for file stats and security flags")
     parser.add_argument("path", help="Directory to scan")
     parser.add_argument("--output", help="Optional path to write JSON results")
+    parser.add_argument("--min-size", type=int, default=None, help = "set large file size threshold")
     args = parser.parse_args()
 
-    stats, flagged = scan_directory(args.path)
+    stats, flagged = scan_directory(args.path, args.min_size)
     print_summary(stats, flagged)
 
     if args.output:
