@@ -1,0 +1,346 @@
+{
+  "stats": {
+    ".mobileconfig": {
+      "count": 29,
+      "total_size": 210421
+    },
+    ".pdf": {
+      "count": 205,
+      "total_size": 41938866
+    },
+    ".png": {
+      "count": 85,
+      "total_size": 4114863
+    },
+    ".csv": {
+      "count": 58,
+      "total_size": 52533
+    },
+    ".dmg": {
+      "count": 13,
+      "total_size": 2857291442
+    },
+    ".jpg": {
+      "count": 11,
+      "total_size": 9202335
+    },
+    ".zip": {
+      "count": 30,
+      "total_size": 3186726342
+    },
+    ".mov": {
+      "count": 3,
+      "total_size": 2944554842
+    },
+    ".xlsx": {
+      "count": 13,
+      "total_size": 304768
+    },
+    "no_extension": {
+      "count": 51,
+      "total_size": 8387066
+    },
+    ".heic": {
+      "count": 5,
+      "total_size": 6083340
+    },
+    ".vsix": {
+      "count": 1,
+      "total_size": 9681406
+    },
+    ".docx": {
+      "count": 2,
+      "total_size": 605788
+    },
+    ".pkg": {
+      "count": 3,
+      "total_size": 380846
+    },
+    ".gif": {
+      "count": 1,
+      "total_size": 2427502
+    },
+    ".exe": {
+      "count": 1,
+      "total_size": 12916688
+    },
+    ".m4b": {
+      "count": 1,
+      "total_size": 451641312
+    },
+    ".mp4": {
+      "count": 1,
+      "total_size": 197962882
+    },
+    ".jpeg": {
+      "count": 1,
+      "total_size": 53814
+    },
+    ".log": {
+      "count": 1,
+      "total_size": 427
+    },
+    ".provisionprofile": {
+      "count": 1,
+      "total_size": 12294
+    },
+    ".plist": {
+      "count": 34,
+      "total_size": 42366
+    },
+    ".car": {
+      "count": 1,
+      "total_size": 2690032
+    },
+    ".icns": {
+      "count": 3,
+      "total_size": 144528
+    },
+    ".nib": {
+      "count": 2,
+      "total_size": 39733
+    },
+    ".ics": {
+      "count": 26,
+      "total_size": 22182262
+    },
+    ".resolved": {
+      "count": 2,
+      "total_size": 219
+    },
+    ".md": {
+      "count": 30,
+      "total_size": 120435
+    },
+    ".yml": {
+      "count": 9,
+      "total_size": 2322
+    },
+    ".m": {
+      "count": 495,
+      "total_size": 1463291
+    },
+    ".pbxproj": {
+      "count": 15,
+      "total_size": 1279126
+    },
+    ".xcworkspacedata": {
+      "count": 5,
+      "total_size": 770
+    },
+    ".xcscheme": {
+      "count": 23,
+      "total_size": 73125
+    },
+    ".podspec": {
+      "count": 5,
+      "total_size": 7333
+    },
+    ".lock": {
+      "count": 1,
+      "total_size": 841
+    },
+    ".h": {
+      "count": 394,
+      "total_size": 451697
+    },
+    ".txt": {
+      "count": 5,
+      "total_size": 4740
+    },
+    ".sh": {
+      "count": 7,
+      "total_size": 11145
+    },
+    ".xcconfig": {
+      "count": 42,
+      "total_size": 20734
+    },
+    ".xcsettings": {
+      "count": 1,
+      "total_size": 264
+    },
+    ".awk": {
+      "count": 2,
+      "total_size": 442
+    },
+    ".pch": {
+      "count": 1,
+      "total_size": 59
+    },
+    ".markdown": {
+      "count": 1,
+      "total_size": 4043
+    },
+    ".swift": {
+      "count": 15,
+      "total_size": 86596
+    },
+    ".12_only": {
+      "count": 1,
+      "total_size": 648
+    },
+    ".sketch": {
+      "count": 1,
+      "total_size": 122880
+    },
+    ".xml": {
+      "count": 4,
+      "total_size": 6588
+    },
+    ".json": {
+      "count": 99954,
+      "total_size": 6568539442
+    },
+    ".gz": {
+      "count": 1,
+      "total_size": 1122168
+    },
+    ".bz2": {
+      "count": 1,
+      "total_size": 690846
+    },
+    ".xz": {
+      "count": 1,
+      "total_size": 353832
+    },
+    ".tar": {
+      "count": 1,
+      "total_size": 2620416
+    },
+    ".pem": {
+      "count": 2,
+      "total_size": 3396
+    },
+    ".py": {
+      "count": 1,
+      "total_size": 8793
+    },
+    ".css": {
+      "count": 1,
+      "total_size": 98
+    },
+    ".xib": {
+      "count": 95,
+      "total_size": 1488632
+    },
+    ".strings": {
+      "count": 99,
+      "total_size": 231229
+    },
+    ".dll": {
+      "count": 2,
+      "total_size": 342236
+    },
+    ".c": {
+      "count": 15,
+      "total_size": 135663
+    },
+    ".version": {
+      "count": 1,
+      "total_size": 253
+    },
+    ".modulemap": {
+      "count": 1,
+      "total_size": 95
+    },
+    ".rtf": {
+      "count": 6,
+      "total_size": 6863
+    },
+    ".js": {
+      "count": 20,
+      "total_size": 23278
+    },
+    ".scpt": {
+      "count": 2,
+      "total_size": 2282
+    },
+    ".html": {
+      "count": 2,
+      "total_size": 381313
+    }
+  },
+  "flagged": [
+    {
+      "path": "/Users/kylerrynear/Downloads/googlechrome.dmg",
+      "size_mb": 209.68,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/Whalar Slack export Aug 1 2018 - Aug 10 2026.zip",
+      "size_mb": 396.89,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/IMG_6515 2.MOV",
+      "size_mb": 1543.25,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/ChatGPT_Atlas.dmg",
+      "size_mb": 229.06,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/VSCode-darwin-arm64.dmg",
+      "size_mb": 271.07,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/Figma (1).zip",
+      "size_mb": 114.47,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/AcroRdrSCADC2500121111_MUI (1).dmg",
+      "size_mb": 830.36,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/Dune 04 - God Emperor of Dune - Frank Herbert.m4b",
+      "size_mb": 430.72,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/Figma.zip",
+      "size_mb": 114.47,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/IMG_6516.MOV",
+      "size_mb": 1244.57,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/Figma (2).zip",
+      "size_mb": 114.06,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/Autogefuehl_Shot2_1.MP4",
+      "size_mb": 188.79,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/AcroRdrSCADC2500121111_MUI.dmg",
+      "size_mb": 830.36,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/Slack-4.42.117-macOS.dmg",
+      "size_mb": 170.73,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/finance@umigames.com-20250616T073600Z-1-001.zip",
+      "size_mb": 2048.05,
+      "reason": "large_file"
+    },
+    {
+      "path": "/Users/kylerrynear/Downloads/VSCode-darwin-universal.zip",
+      "size_mb": 222.22,
+      "reason": "large_file"
+    }
+  ]
+}
