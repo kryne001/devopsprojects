@@ -74,8 +74,6 @@ def main():
     for item in flagged:
         print(item)
 
-    for user in users:
-        print(user["profile"]["login"], user.get("status"), user.get("lastLogin"))
 
     if args.output:
         with open(args.output, "w") as f:
