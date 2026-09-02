@@ -64,7 +64,12 @@ def main():
     parser.add_argument("--min-size", type=int, default=None, help = "set large file size threshold")
     args = parser.parse_args()
 
-    stats, flagged = scan_directory(args.path, args.min_size)
+    try:
+        stats, flagged = scan_directory(args.path, args.min_size)
+    except (FileNotFoundError, NotADirectoryError) as e:
+        print(f"Error: {e}")
+        return
+
     print_summary(stats, flagged)
 
     if args.output:
