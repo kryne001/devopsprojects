@@ -5,7 +5,7 @@ import os
 from datetime import datetime, timedelta, UTC
 
 OKTA_DOMAIN = os.environ.get("OKTA_DOMAIN")  # e.g. "dev-12345.okta.com"
-OKTA_TOKEN = os.environ.get("OKTA_API_TOKEN")  # never hardcode this
+OKTA_TOKEN = os.environ.get("OKTA_TOKEN")  # never hardcode this
 
 HEADERS = {
     "Authorization": f"SSWS {OKTA_TOKEN}",
@@ -17,13 +17,13 @@ def get_all_users():
     url = f"https://{OKTA_DOMAIN}/api/v1/users"
     while url is not None:    
         response = requests.get(url, headers=HEADERS)
-        all_users.extend(response.json())
         response.raise_for_status()
+        all_users.extend(response.json())
         if "next" in response.links:
             url = response.links["next"]["url"]
         else:
             url = None
-    return response.json()
+    return all_users
 
 def get_user_app_links(user_id):
     url = f"https://{OKTA_DOMAIN}/api/v1/users/{user_id}/appLinks"
@@ -66,10 +66,6 @@ def main():
     parser.add_argument("--verbose", action="store_true", help="Print status of all users, not just flagged ones")
     args = parser.parse_args()
 
-    if args.verbose:
-        for user in users:
-            print(user["profile"]["login"], user.get("status"), user.get("lastLogin"))
-
     if not OKTA_DOMAIN or not OKTA_TOKEN:
         print("Error: set OKTA_DOMAIN and OKTA_API_TOKEN environment variables")
         return
@@ -79,6 +75,10 @@ def main():
     except requests.exceptions.RequestException as e:
         print(f"Error connecting to Okta: {e}")
         return
+
+    if args.verbose:
+        for user in users:
+            print(user["profile"]["login"], user.get("status"), user.get("lastLogin"))
 
     flagged = find_stale_active_users(users, args.inactive_days)
 
