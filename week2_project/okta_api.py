@@ -13,9 +13,16 @@ HEADERS = {
 }
 
 def get_all_users():
+    all_users = []
     url = f"https://{OKTA_DOMAIN}/api/v1/users"
-    response = requests.get(url, headers=HEADERS)
-    response.raise_for_status()
+    while url is not None:    
+        response = requests.get(url, headers=HEADERS)
+        all_users.extend(response.json())
+        response.raise_for_status()
+        if "next" in response.links:
+            url = response.links["next"]["url"]
+        else:
+            url = None
     return response.json()
 
 def get_user_app_links(user_id):
@@ -56,7 +63,12 @@ def main():
     parser = argparse.ArgumentParser(description="Audit Okta users for stale access")
     parser.add_argument("--inactive-days", type=int, default=90, help="Days of inactivity to flag")
     parser.add_argument("--output", help="Optional path to write JSON results")
+    parser.add_argument("--verbose", action="store_true", help="Print status of all users, not just flagged ones")
     args = parser.parse_args()
+
+    if args.verbose:
+        for user in users:
+            print(user["profile"]["login"], user.get("status"), user.get("lastLogin"))
 
     if not OKTA_DOMAIN or not OKTA_TOKEN:
         print("Error: set OKTA_DOMAIN and OKTA_API_TOKEN environment variables")
