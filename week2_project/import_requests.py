@@ -28,7 +28,7 @@ def create_test_user(first_name, last_name, email):
     return response.json()
 
 def main():
-    for i in range(1, 251):  # create 250 test users to force multiple pages
+    for i in range(20, 251):  # create 250 test users to force multiple pages
         first = f"Test{i}"
         last = "User"
         email = f"test.user{i}@example.com"

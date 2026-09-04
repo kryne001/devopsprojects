@@ -58,12 +58,27 @@ def find_stale_active_users(users, inactive_days=90):
                         "reason": f"inactive_{inactive_days}_days_with_active_apps"
                     })
     return flagged
+    
+def remove_staged(users):
+    for user in users:
+        status = user.get("status")
+        if status == "STAGED":
+            login = user["profile"]["login"]
+            url = f"https://{OKTA_DOMAIN}/api/v1/users/{login}"
+            response = requests.delete(url, headers=HEADERS)
+            response.raise_for_status()
+            print(f"Deactivating staged user: {login}")
+            response = requests.delete(url, headers=HEADERS)
+            response.raise_for_status
+            print(f"Deleting staged user: {login}")
 
 def main():
     parser = argparse.ArgumentParser(description="Audit Okta users for stale access")
     parser.add_argument("--inactive-days", type=int, default=90, help="Days of inactivity to flag")
     parser.add_argument("--output", help="Optional path to write JSON results")
     parser.add_argument("--verbose", action="store_true", help="Print status of all users, not just flagged ones")
+    parser.add_argument("--remove-staged", action="store_true", help="remove non-active staged users")
+
     args = parser.parse_args()
 
     if not OKTA_DOMAIN or not OKTA_TOKEN:
@@ -81,6 +96,11 @@ def main():
             print(user["profile"]["login"], user.get("status"), user.get("lastLogin"))
 
     flagged = find_stale_active_users(users, args.inactive_days)
+
+    if args.remove_staged:
+        removed = remove_staged(users)
+
+        
 
     print(f"\n--- Flagged Users ({len(flagged)}) ---")
     for item in flagged:
