@@ -1,0 +1,170 @@
+import requests
+import argparse
+import json
+import os
+from datetime import datetime, timedelta, UTC
+from dotenv import load_dotenv
+load_dotenv()
+
+OKTA_DOMAIN = os.environ.get("OKTA_DOMAIN")  # e.g. "dev-12345.okta.com"
+OKTA_TOKEN = os.environ.get("OKTA_TOKEN")  # never hardcode this
+
+HEADERS = {
+    "Authorization": f"SSWS {OKTA_TOKEN}",
+    "Accept": "application/json"
+}
+
+def get_all_users():
+    all_users = []
+    url = f"https://{OKTA_DOMAIN}/api/v1/users"
+    while url is not None:    
+        response = requests.get(url, headers=HEADERS)
+        response.raise_for_status()
+        all_users.extend(response.json())
+        if "next" in response.links:
+            url = response.links["next"]["url"]
+        else:
+            url = None
+    return all_users
+
+def get_user_app_links(user_id):
+    url = f"https://{OKTA_DOMAIN}/api/v1/users/{user_id}/appLinks"
+    response = requests.get(url, headers=HEADERS)
+    response.raise_for_status()
+    return response.json()
+
+def find_stale_active_users(users, inactive_days=90):
+    flagged = []
+    cutoff = datetime.now(UTC) - timedelta(days=inactive_days)
+
+    for user in users:
+        last_login = user.get("lastLogin")
+        status = user.get("status")
+
+        if status == "ACTIVE":
+            if last_login is None:
+                # Never logged in but active — arguably worse than stale
+                flagged.append({
+                    "user": user["profile"]["login"],
+                    "last_login": None,
+                    "reason": "active_never_logged_in"
+                })
+            else:
+                last_login_date = datetime.strptime(last_login, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=UTC)
+                if last_login_date < cutoff:
+                    app_links = get_user_app_links(user["id"])
+                    flagged.append({
+                        "user": user["profile"]["login"],
+                        "last_login": last_login,
+                        "app_count": len(app_links),
+                        "reason": f"inactive_{inactive_days}_days_with_active_apps"
+                    })
+    return flagged
+    
+def remove_staged(users):
+    removed = 0
+    for user in users:
+        status = user.get("status")
+        if status == "STAGED":
+            login = user["profile"]["login"]
+            url = f"https://{OKTA_DOMAIN}/api/v1/users/{login}"
+            try:
+                response = requests.delete(url, headers=HEADERS)
+                response.raise_for_status()
+                print(f"Deactivating staged user: {login}")
+                response = requests.delete(url, headers=HEADERS)
+                response.raise_for_status()
+                print(f"Deleting staged user: {login}")
+                removed+=1
+            except requests.exceptions.RequestException as e:
+                print(f"Failed to remove {login}: {e}")
+
+    return removed
+
+def set_password_and_activate(login):
+    url = f"https://{OKTA_DOMAIN}/api/v1/users/{login}/lifecycle/activate?sendEmail=false"
+    payload = {"credentials": {"password": {"value": "TempPassword123!!"}}}
+    response = requests.post(url, headers=HEADERS)
+    response.raise_for_status()
+    
+    activate_url = f"https://{OKTA_DOMAIN}/api/v1/users/{login}"
+    response = requests.post(activate_url, headers=HEADERS, json=payload)
+    response.raise_for_status()
+
+def activate_users(users, count):
+    activated = 0
+    for user in users:
+        if activated >= count:
+            break
+        status = user.get("status")
+        if status == "DEPROVISIONED":
+            login = user["profile"]["login"]
+            try:
+                set_password_and_activate(login)
+                activated += 1
+            except requests.exceptions.RequestException as e:
+                print(f"Failed to activate {login}: {e}")
+    print(f"Total activated: {activated}")
+
+def get_deprovisioned_users():
+    all_users = []
+    url = f"https://{OKTA_DOMAIN}/api/v1/users"
+    params = {"filter": 'status eq "DEPROVISIONED"'}
+    while url is not None:
+        response = requests.get(url, headers=HEADERS, params=params)
+        response.raise_for_status()
+        all_users.extend(response.json())
+        params = None
+        if "next" in response.links:
+            url = response.links["next"]["url"]
+        else:
+            url = None
+    return all_users
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Audit Okta users for stale access")
+    parser.add_argument("--inactive-days", type=int, default=90, help="Days of inactivity to flag")
+    parser.add_argument("--output", help="Optional path to write JSON results")
+    parser.add_argument("--verbose", action="store_true", help="Print status of all users, not just flagged ones")
+    parser.add_argument("--remove-staged", action="store_true", help="remove non-active staged users")
+    parser.add_argument("--activate", type=int, help="Number of deactivated users to activate")
+    args = parser.parse_args()
+
+    if not OKTA_DOMAIN or not OKTA_TOKEN:
+        print("Error: set OKTA_DOMAIN and OKTA_API_TOKEN environment variables")
+        return
+
+    try:
+        users = get_all_users()
+    except requests.exceptions.RequestException as e:
+        print(f"Error connecting to Okta: {e}")
+        return
+
+    if args.verbose:
+        for user in users:
+            print(user["profile"]["login"], user.get("status"), user.get("lastLogin"))
+
+    flagged = find_stale_active_users(users, args.inactive_days)
+
+    if args.remove_staged:
+        remove_staged(users)
+
+    if args.activate:
+        deprovisioned = get_deprovisioned_users()
+        activated = activate_users(deprovisioned, args.activate)
+
+        
+
+    print(f"\n--- Flagged Users ({len(flagged)}) ---")
+    for item in flagged:
+        print(item)
+
+
+    if args.output:
+        with open(args.output, "w") as f:
+            json.dump(flagged, f, indent=2)
+        print(f"\nResults written to {args.output}")
+
+if __name__ == "__main__":
+    main()
